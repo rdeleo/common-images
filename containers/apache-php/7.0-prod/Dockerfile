@@ -1,7 +1,7 @@
-# PHP 7.2 Apache Container Image
+# PHP 7.0 Apache Container Image
 #
-# VERSION 0.0.1
-FROM php:7.2-apache
+# VERSION 0.0.2
+FROM php:7.0-apache
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 WORKDIR /var/www/html
 
@@ -41,15 +41,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils\
     && rm -rf /var/lib/apt/lists/*
 
 ## Copy development php.ini
-COPY containers/apache-php/php.ini /usr/local/etc/php/php.ini
+COPY containers/apache-php/common/php.ini /usr/local/etc/php/php.ini
 
 #Install redis extension
 RUN pecl install redis-4.0.1 \
     && docker-php-ext-enable redis
-
-#Install xdebug - DEV ONLY
-#RUN pecl install xdebug-2.6.0 \
-#    && docker-php-ext-enable xdebug
 
 ## Supervisor log
 RUN mkdir -p /var/log/supervisor

@@ -1,7 +1,7 @@
 # PHP command line utils Container Image
 #
 # VERSION 0.0.1
-FROM eclipsehv/apache-php:latest
+FROM eclipsehv/apache-php:7.2-dev
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 
 ## Install composer
