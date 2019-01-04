@@ -1,10 +1,23 @@
 #!/bin/bash
-# description: create xdebug.ini file
-# author: Riccardo De Leo
+#########################
+# Author: Riccardo De Leo
+#
+# Description: create xdebug.ini file
+#########################
 set -e
+
+
+#########################
+# VARIABLES
+#########################
 PHP_CONF_DIR=/usr/local/etc/php/conf.d
 XDEBUG_FILE=xdebug.ini
+# ENV
+DOCKER_HOST_IP=${DOCKER_HOST_IP}
 
+#########################
+# MAIN
+#########################
 if [ -f ${PHP_CONF_DIR}/${XDEBUG_FILE} ]; then
    rm ${PHP_CONF_DIR}/${XDEBUG_FILE}
 fi

@@ -41,16 +41,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils\
     && rm -rf /var/lib/apt/lists/*
 
 ## Copy development php.ini
-COPY containers/apache-php/common/php.ini /usr/local/etc/php/php.ini
+COPY containers/apache-php/common/conf/php.ini /usr/local/etc/php/php.ini
 
 #Install redis extension
 RUN pecl install redis-4.0.1 \
     && docker-php-ext-enable redis
 
-## Supervisor log
-RUN mkdir -p /var/log/supervisor
-
 ## Apache preparation
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data \
     && echo "ServerName localhost" >> /etc/apache2/apache2.conf \
-    && mkdir /etc/apache2/ssl && mkdir /log && chown www-data:www-data /log
+    && mkdir /etc/apache2/ssl \
+    && mkdir /etc/apache2/templates \
+    && mkdir /log \
+    && chown www-data:www-data /log
+
+COPY containers/apache-php/common/conf/apache-default-template.conf /etc/apache2/templates/apache-default-template.conf
+COPY containers/apache-php/common/conf/apache-default-ssl-template.conf /etc/apache2/templates/apache-default-ssl-template.conf
+
+## Supervisor log
+RUN mkdir -p /var/log/supervisor
