@@ -10,22 +10,17 @@
 #########################
 # VARIABLES
 #########################
-BLUE="\033[0;34m"
-GREEN="\033[0;32m"
-GREY="\033[0;37m"
-NC="\033[0m"
-# ENV
-CERT_BOT_LOG_FILE=${CERT_BOT_LOG_FILE}
+CRON_LOG_FILE=${CRON_LOG_FILE}
 
 #########################
 # FUNCTION
 #########################
 function log_info() {
-    printf "${BLUE}$(date '+%Y-%m-%d %H:%M:%S')${NC} - ${GREY}info${NC} - $1" >> ${CERT_BOT_LOG_FILE}
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - INFO - $1" >> ${CRON_LOG_FILE}
 }
 
 function log_success() {
-     printf "${BLUE}$(date '+%Y-%m-%d %H:%M:%S')${NC} - ${GREEN}success${NC} - $1" >> ${CERT_BOT_LOG_FILE}
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - SUCCESS - $1" >> ${CRON_LOG_FILE}
 }
 
 
