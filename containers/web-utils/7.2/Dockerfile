@@ -5,9 +5,8 @@ FROM eclipsehv/apache-php:7.2-dev
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 
 ## Install composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer --quiet \
-    && rm composer-setup.php
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN chmod +x /usr/bin/composer
 
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg \
     && curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh \
