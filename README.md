@@ -115,12 +115,30 @@ docker push eclipsehv/apache-php:7.0-dev
 docker push eclipsehv/apache-php:7.2-dev
 ```
 
-## Web Utils Container
-- Build the image based on php 7.2 (latest)
+## CLI php container with composer
+
+### 7.2
+
+#### Build
+```
+docker build --no-cache -t eclipsehv/cli-php:7.2 -f containers/cli-php/7.2/Dockerfile .
+```
+
+#### Push
+```
+docker push eclipsehv/cli-php:7.2
+```
+
+### Web utils
+
+### 7.2
+
+#### Build
 ```
 docker build --no-cache -t eclipsehv/web-utils:7.2-prod -t eclipsehv/web-utils:latest -f containers/web-utils/7.2/Dockerfile .
 ```
-- Push the image into Docker Hub registry
+
+#### Push
 ```
 docker push eclipsehv/web-utils:latest
 ```
