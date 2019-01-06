@@ -5,7 +5,7 @@ FROM eclipsehv/apache-php:7.2-prod
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 
 #Install xdebug
-RUN pecl install xdebug-2.6.0 \
+RUN pecl install xdebug-2.6.1 \
     && docker-php-ext-enable xdebug
 
 # Add xdebug init script and dev docker-entrypoint
