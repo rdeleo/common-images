@@ -16,7 +16,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN chmod +x /usr/bin/composer
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data && \
-    chmod -R www-data:www-data /app && \
+    mkdir /app && \
+    chown -R www-data:www-data /app
 
 USER www-data:www-data
 
