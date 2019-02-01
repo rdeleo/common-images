@@ -44,8 +44,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils\
 COPY containers/apache-php/common/conf/php.ini /usr/local/etc/php/php.ini
 
 #Install redis extension
-RUN pecl install redis-4.0.1 \
-    && docker-php-ext-enable redis
+#RUN pecl install redis-4.2.0 \
+#    && docker-php-ext-enable redis
+#
+# 2019-01-31 - PECL FIX - Install redis from source
+RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/4.2.0.tar.gz \
+    && tar xfz /tmp/redis.tar.gz \
+    && rm -r /tmp/redis.tar.gz \
+    && mkdir /usr/src/php \
+    && mkdir /usr/src/php/ext \
+    && mv phpredis-4.2.0 /usr/src/php/ext/redis \
+    && docker-php-ext-install redis
 
 ## Apache PHP preparation
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data \
@@ -58,6 +67,11 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data \
 
 COPY containers/apache-php/common/conf/apache-default-template.conf /etc/apache2/templates/apache-default-template.conf
 COPY containers/apache-php/common/conf/apache-default-ssl-template.conf /etc/apache2/templates/apache-default-ssl-template.conf
+
+# Install certbot
+RUN echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/sources.list && \
+    apt update -y && \
+    apt-get install -y certbot -t stretch-backports
 
 # Copy executables
 COPY containers/apache-php/common/bin/prod/cert-create.sh /usr/bin/cert-create
@@ -79,6 +93,9 @@ RUN chmod 0644 /etc/cron.d/crontab
 # Add supervisor configuration files and directories
 RUN mkdir -p /var/log/supervisord
 COPY containers/apache-php/common/conf/supervisord.conf /etc/supervisord.conf
+
+RUN a2enmod rewrite && \
+    a2enmod ssl
 
 # Define default command
 CMD ["docker-entrypoint"]
