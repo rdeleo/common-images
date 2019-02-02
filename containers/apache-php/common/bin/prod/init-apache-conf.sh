@@ -45,21 +45,21 @@ clean_files
 if [ "${APP_USE_SSL}" == "YES" ]; then
     cp ${APACHE_TEMPLATE_DIR}/${APACHE_TEMPLATE_FILE_SSL} ${APACHE_CONF_FILE}
 
-    sed 's/__APP_DOMAIN_NAME__/'${APP_DOMAIN_NAME}'/g' ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
-    sed 's/__APACHE_SERVER_ADMIN_EMAIL__/'${APACHE_SERVER_ADMIN_EMAIL}'/g' ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
-    sed 's/__APACHE_DOCUMENT_ROOT__/'${APACHE_DOCUMENT_ROOT}'/g' ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
-    sed 's/__APACHE_ERROR_LOG__/'${APACHE_ERROR_LOG}'/g' ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
-    sed 's/__APACHE_ACCESS_LOG__/'${APACHE_ACCESS_LOG}'/g' ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
-    sed 's/__APACHE_SSL_ERROR_LOG__/'${APACHE_SSL_ERROR_LOG}'/g' ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
-    sed 's/__APACHE_SSL_ACCESS_LOG__/'${APACHE_SSL_ACCESS_LOG}'/g' ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
-    sed 's/__SSL_CERTIFICATE_FILE__/'${SSL_CERTIFICATE_FILE}'/g' ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
-    sed 's/__SSL_CERTIFICATE_KEY_FILE__/'${SSL_CERTIFICATE_KEY_FILE}'/g' ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
+    sed -i 's/__APP_DOMAIN_NAME__/'$(echo ${APP_DOMAIN_NAME} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_SERVER_ADMIN_EMAIL__/'$(echo ${APACHE_SERVER_ADMIN_EMAIL} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_DOCUMENT_ROOT__/'$(echo ${APACHE_DOCUMENT_ROOT} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_ERROR_LOG__/'$(echo ${APACHE_ERROR_LOG} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_ACCESS_LOG__/'$(echo ${APACHE_ACCESS_LOG} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_SSL_ERROR_LOG__/'$(echo ${APACHE_SSL_ERROR_LOG} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_SSL_ACCESS_LOG__/'$(echo ${APACHE_SSL_ACCESS_LOG} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__SSL_CERTIFICATE_FILE__/'$(echo ${SSL_CERTIFICATE_FILE} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__SSL_CERTIFICATE_KEY_FILE__/'$(echo ${SSL_CERTIFICATE_KEY_FILE} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
 else
     cp ${APACHE_TEMPLATE_DIR}/${APACHE_TEMPLATE_FILE} ${APACHE_CONF_FILE}
 
-    sed 's/__APP_DOMAIN_NAME__/'${APP_DOMAIN_NAME}/g ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
-    sed 's/__APACHE_SERVER_ADMIN_EMAIL__/'${APACHE_SERVER_ADMIN_EMAIL}/g ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
-    sed 's/__APACHE_DOCUMENT_ROOT__/'${APACHE_DOCUMENT_ROOT}/g ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
-    sed 's/__APACHE_ERROR_LOG__/'${APACHE_ERROR_LOG}/g ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
-    sed 's/__APACHE_ACCESS_LOG__/'${APACHE_ACCESS_LOG}/g ${APACHE_CONF_FILE} | > ${APACHE_CONF_FILE}
+    sed -i 's/__APP_DOMAIN_NAME__/'$(echo ${APP_DOMAIN_NAME} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_SERVER_ADMIN_EMAIL__/'$(echo ${APACHE_SERVER_ADMIN_EMAIL} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_DOCUMENT_ROOT__/'$(echo ${APACHE_DOCUMENT_ROOT} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_ERROR_LOG__/'$(echo ${APACHE_ERROR_LOG} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_ACCESS_LOG__/'$(echo ${APACHE_ACCESS_LOG} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
 fi
