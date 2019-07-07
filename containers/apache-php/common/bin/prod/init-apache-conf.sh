@@ -12,9 +12,8 @@
 APACHE_TEMPLATE_DIR="/etc/apache2/templates"
 APACHE_TEMPLATE_FILE="apache-default-template.conf"
 APACHE_TEMPLATE_FILE_SSL="apache-default-ssl-template.conf"
-APACHE_TEMPORARY_FILE="apache-tmp-default.conf"
-APACHE_CONF_DIR="/etc/apache2/sites-available"
-APACHE_CONF_FILE="000-default.conf"
+APACHE_CONF_FILE="/etc/apache2/sites-available/000-default.conf"
+
 # ENV
 APP_USE_SSL=${APP_USE_SSL}
 APP_DOMAIN_NAME=${APP_DOMAIN_NAME}
@@ -32,28 +31,9 @@ SSL_CERTIFICATE_KEY_FILE=${SSL_CERTIFICATE_KEY_FILE}
 # FUNCTIONS
 #########################
 function clean_files() {
-    if [ -f "${APACHE_TEMPLATE_DIR}/${APACHE_TEMPORARY_FILE}" ]; then
-        rm ${APACHE_TEMPLATE_DIR}/${APACHE_TEMPORARY_FILE}
+    if [ -f "${APACHE_CONF_FILE}" ]; then
+        rm ${APACHE_CONF_FILE}
     fi
-
-    if [ -f "${APACHE_CONF_DIR}/${APACHE_CONF_FILE}" ]; then
-        rm ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
-    fi
-}
-
-function substitute() {
-    FILE_NAME="${APACHE_CONF_DIR}/${APACHE_CONF_FILE}"
-    FILE_TMP="${APACHE_TEMPLATE_DIR}/${APACHE_TEMPORARY_FILE}"
-    OLD_STRING=$1
-    NEW_STRING=$2
-
-    cp ${FILE_NAME} ${FILE_TMP}
-
-    rm ${FILE_NAME}
-
-    sed 's/'${OLD_STRING}'/'${NEW_STRING}'/g' <${FILE_TMP} >${FILE_NAME}
-
-    rm ${FILE_TMP}
 }
 
 
@@ -63,23 +43,23 @@ function substitute() {
 clean_files
 
 if [ "${APP_USE_SSL}" == "YES" ]; then
-    cp ${APACHE_TEMPLATE_DIR}/${APACHE_TEMPLATE_FILE_SSL} ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
+    cp ${APACHE_TEMPLATE_DIR}/${APACHE_TEMPLATE_FILE_SSL} ${APACHE_CONF_FILE}
 
-    substitute "__APP_DOMAIN_NAME__" ${APP_DOMAIN_NAME}
-    substitute "__APACHE_SERVER_ADMIN_EMAIL__" ${APACHE_SERVER_ADMIN_EMAIL}
-    substitute "__APACHE_DOCUMENT_ROOT__" ${APACHE_DOCUMENT_ROOT}
-    substitute "__APACHE_ERROR_LOG__" ${APACHE_ERROR_LOG}
-    substitute "__APACHE_ACCESS_LOG__" ${APACHE_ACCESS_LOG}
-    substitute "__APACHE_SSL_ERROR_LOG__" ${APACHE_SSL_ERROR_LOG}
-    substitute "__APACHE_SSL_ACCESS_LOG__" ${APACHE_SSL_ACCESS_LOG}
-    substitute "__SSL_CERTIFICATE_FILE__" ${SSL_CERTIFICATE_FILE}
-    substitute "__SSL_CERTIFICATE_KEY_FILE__" ${SSL_CERTIFICATE_KEY_FILE}
+    sed -i 's/__APP_DOMAIN_NAME__/'$(echo ${APP_DOMAIN_NAME} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_SERVER_ADMIN_EMAIL__/'$(echo ${APACHE_SERVER_ADMIN_EMAIL} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_DOCUMENT_ROOT__/'$(echo ${APACHE_DOCUMENT_ROOT} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_ERROR_LOG__/'$(echo ${APACHE_ERROR_LOG} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_ACCESS_LOG__/'$(echo ${APACHE_ACCESS_LOG} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_SSL_ERROR_LOG__/'$(echo ${APACHE_SSL_ERROR_LOG} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_SSL_ACCESS_LOG__/'$(echo ${APACHE_SSL_ACCESS_LOG} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__SSL_CERTIFICATE_FILE__/'$(echo ${SSL_CERTIFICATE_FILE} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__SSL_CERTIFICATE_KEY_FILE__/'$(echo ${SSL_CERTIFICATE_KEY_FILE} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
 else
-    cp ${APACHE_TEMPLATE_DIR}/${APACHE_TEMPLATE_FILE} ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
+    cp ${APACHE_TEMPLATE_DIR}/${APACHE_TEMPLATE_FILE} ${APACHE_CONF_FILE}
 
-    substitute "__APP_DOMAIN_NAME__" ${APP_DOMAIN_NAME}
-    substitute "__APACHE_SERVER_ADMIN_EMAIL__" ${APACHE_SERVER_ADMIN_EMAIL}
-    substitute "__APACHE_DOCUMENT_ROOT__" ${APACHE_DOCUMENT_ROOT}
-    substitute "__APACHE_ERROR_LOG__" ${APACHE_ERROR_LOG}
-    substitute "__APACHE_ACCESS_LOG__" ${APACHE_ACCESS_LOG}
+    sed -i 's/__APP_DOMAIN_NAME__/'$(echo ${APP_DOMAIN_NAME} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_SERVER_ADMIN_EMAIL__/'$(echo ${APACHE_SERVER_ADMIN_EMAIL} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_DOCUMENT_ROOT__/'$(echo ${APACHE_DOCUMENT_ROOT} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_ERROR_LOG__/'$(echo ${APACHE_ERROR_LOG} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
+    sed -i 's/__APACHE_ACCESS_LOG__/'$(echo ${APACHE_ACCESS_LOG} | sed 's_/_\\/_g')'/g' ${APACHE_CONF_FILE}
 fi

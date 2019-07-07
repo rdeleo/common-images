@@ -43,4 +43,10 @@ RUN chmod +x /usr/bin/composer
 ## Install prestissimo
 RUN composer global require hirak/prestissimo
 
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data && \
+    mkdir /app && \
+    chown -R www-data:www-data /app
+
+USER www-data:www-data
+
 WORKDIR /app
