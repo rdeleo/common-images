@@ -40,13 +40,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils\
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN chmod +x /usr/bin/composer
 
-## Install prestissimo
-RUN composer global require hirak/prestissimo
-
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data && \
     mkdir /app && \
-    chown -R www-data:www-data /app
+    chown -R www-data:www-data /app && \
+    chown -R www-data:www-data /var/www
 
 USER www-data:www-data
 
 WORKDIR /app
+
+## Install prestissimo
+RUN /usr/bin/composer global require hirak/prestissimo
