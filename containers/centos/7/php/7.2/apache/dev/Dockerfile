@@ -36,12 +36,10 @@ RUN mv $PHPD_DIR/$XDEBUG_INI $TEMPLATES_DIR/$XDEBUG_INI
 # Copy apache.conf template
 COPY $CONTAINER_DIR/$APACHE_CONF $TEMPLATES_DIR/$APACHE_CONF
 
-# Add xdebug init script and dev docker-entrypoint
-COPY containers/apache-php/common/bin/dev/init-xdebug.sh /usr/bin/init-xdebug
-COPY containers/apache-php/common/bin/dev/docker-entrypoint.sh /usr/bin/docker-entrypoint
+# Add docker-entrypoint
+COPY $CONTAINER_DIR/docker-entrypoint.sh /usr/bin/docker-entrypoint
 
-RUN chmod +x /usr/bin/init-xdebug && \
-    chmod +x /usr/bin/docker-entrypoint
+RUN chmod +x /usr/bin/docker-entrypoint
 
 # Define default command
 CMD ["docker-entrypoint"]
