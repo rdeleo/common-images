@@ -5,7 +5,7 @@
 #########################################################
 FROM rdeleo/centos7-php7.2-cli:7.2.26
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
-WORKDIR /home/centos
+WORKDIR /var/www/html
 
 ARG PHPD_DIR=/etc/php.d
 ARG XDEBUG_INI=15-xdebug.ini
@@ -15,6 +15,9 @@ ARG CONTAINER_DIR=/containers/centos/7/php/7.2/apache/dev
 
 # Install apache and php xdebug
 RUN yum install -y httpd php-xdebug
+
+# Authorize xdebug with selinux
+RUN setsebool -P httpd_can_network_connect 1
 
 # Add placeholders to xdebug.ini file
 RUN echo "xdebug.idekey = __XDEBUG_ID_KEY__" >> /$XDEBUG_INI \
@@ -38,7 +41,6 @@ COPY $CONTAINER_DIR/$APACHE_CONF $TEMPLATES_DIR/$APACHE_CONF
 
 # Add docker-entrypoint
 COPY $CONTAINER_DIR/docker-entrypoint.sh /usr/bin/docker-entrypoint
-
 RUN chmod +x /usr/bin/docker-entrypoint
 
 # Define default command

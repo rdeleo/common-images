@@ -67,5 +67,8 @@ sed -e '~__APP_DOMAIN_NAME__~'${APP_DOMAIN_NAME}'~g' \
     -e '~__APACHE_ACCESS_LOG__~'${APACHE_ACCESS_LOG}'~g' \
     ${TEMPLATE_DIR}/${APACHE_CONF_TEMPLATE_FILE} > ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
 
+# SeLinux enable apache conf file
+chcon -R -u system_u -t httpd_config_t ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
+
 # Start Apache
 /usr/sbin/httpd -D FOREGROUND
