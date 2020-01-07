@@ -1,9 +1,73 @@
-# common-images
+#Common Images
+
 Docker containers of common utilities.
 
-## Apache php container
+##Container List
 
-### PROD
+- Centos7
+    - Php
+        - 7.3
+            - Apache
+                - Dev
+                - Prod
+            - Cli
+
+##Commands
+
+###centos7-php7.4-cli
+
+####7.4.1 (latest) 
+
+Build:
+```bash
+docker build --no-cache -t rdeleo/centos7-php7.4-cli:7.4.1 -t rdeleo/centos7-php7.4-cli:latest -f containers/centos/7/php/7.4/cli/Dockerfile .
+```
+
+Push:
+```bash
+docker push rdeleo/centos7-php7.4-cli:7.4.1
+docker push rdeleo/centos7-php7.4-cli:latest
+```
+
+###centos7-php7.3-cli
+
+####7.3.13 (latest) 
+
+Build:
+```bash
+docker build --no-cache -t rdeleo/centos7-php7.3-cli:7.3.13 -t rdeleo/centos7-php7.3-cli:latest -f containers/centos/7/php/7.3/cli/Dockerfile .
+```
+
+Push:
+```bash
+docker push rdeleo/centos7-php7.3-cli:7.3.13
+docker push rdeleo/centos7-php7.3-cli:latest
+```
+
+###centos7-php7.3-cli
+
+####7.3.13 (latest) 
+
+Build:
+```bash
+docker build --no-cache -t rdeleo/centos7-php7.2-cli:7.2.26 -t rdeleo/centos7-php7.2-cli:latest -f containers/centos/7/php/7.2/cli/Dockerfile .
+```
+
+Push:
+```bash
+docker push rdeleo/centos7-php7.2-cli:7.2.26
+docker push rdeleo/centos7-php7.2-cli:latest
+```      
+
+
+
+
+
+
+
+
+
+
 
 #### Environment Variables
 You have to setup the following environment variables to run properly the prod container:
