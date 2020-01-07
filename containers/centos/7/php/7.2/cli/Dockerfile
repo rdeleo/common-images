@@ -1,6 +1,6 @@
 #########################################################
 #                                                       #
-# Centos:7.7 - Php:7.4 - Cli                            #
+# Centos:7.7 - Php:7.2 - Cli                            #
 #                                                       #
 #########################################################
 FROM centos:7
@@ -18,13 +18,3 @@ RUN yum update -y \
 
 # Set default timezone, activate mysqli and zip extensions
 RUN sed -e "s~;date.timezone =~date.timezone = \"UTC\"~g" -i /etc/php.ini
-
-# Install composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN chmod +x /usr/bin/composer
-
-# Allows root to run composer
-ENV COMPOSER_ALLOW_SUPERUSER=1
-
-# Install prestissimo
-RUN /usr/bin/composer global require hirak/prestissimo
