@@ -2,63 +2,145 @@
 
 Docker containers of common utilities.
 
-##Container List
+##How To Test
 
-- Centos7
-    - Php
-        - 7.3
-            - Apache
-                - Dev
-                - Prod
-            - Cli
+Those containers are designed to be used with an orchestrator, so you should use at least docker compose to get the most of them.
 
-##Commands
+Within the folder examples you can find a series of docker-compose template files relative .env example file.
+To test it:
+1. Target the environment you want to test;
+1. Move the <i>docker-compose.template.yml</i> file to the project directory folder and rename as <i>docker-compose.yml</i>;
+1. Move the <i>.env.example</i> file to the project directory folder and rename as <i>.env</i>;
+1. Run the following command:
+    ```bash
+    docker-compose.yml up
+    ```   
+1. Connect your browser to [localhost:8080](http://localhost:8080).
 
-###centos7-php7.4-cli
+##Containers
 
-####7.4.1 (latest) 
+###CentOS7-Php7.4
 
+####Cli:7.4.1 (latest)
 Build:
 ```bash
 docker build --no-cache -t rdeleo/centos7-php7.4-cli:7.4.1 -t rdeleo/centos7-php7.4-cli:latest -f containers/centos/7/php/7.4/cli/Dockerfile .
 ```
-
 Push:
 ```bash
 docker push rdeleo/centos7-php7.4-cli:7.4.1
 docker push rdeleo/centos7-php7.4-cli:latest
 ```
 
-###centos7-php7.3-cli
+####Utils:7.4.1 (latest)
+Build:
+```bash
+docker build --no-cache -t rdeleo/centos7-php7.4-utils:7.4.1 -t rdeleo/centos7-php7.4-utils:latest -f containers/centos/7/php/7.4/utils/Dockerfile .
+```
+Push:
+```bash
+docker push rdeleo/centos7-php7.4-utils:7.4.1
+docker push rdeleo/centos7-php7.4-utils:latest
+```
 
-####7.3.13 (latest) 
+####Apache-Dev:7.4.1 (latest)
+Build:
+```bash
+docker build --no-cache -t rdeleo/centos7-php7.4-apache-dev:7.4.1 -t rdeleo/centos7-php7.4-apache-dev:latest -f containers/centos/7/php/7.4/apache/dev/Dockerfile .
+```
+Push:
+```bash
+docker push rdeleo/centos7-php7.4-apache-dev:7.4.1
+docker push rdeleo/centos7-php7.4-apache-dev:latest
+```
 
+###CentOS7-Php7.3
+
+####Cli:7.3.13 (latest) 
 Build:
 ```bash
 docker build --no-cache -t rdeleo/centos7-php7.3-cli:7.3.13 -t rdeleo/centos7-php7.3-cli:latest -f containers/centos/7/php/7.3/cli/Dockerfile .
 ```
-
 Push:
 ```bash
 docker push rdeleo/centos7-php7.3-cli:7.3.13
 docker push rdeleo/centos7-php7.3-cli:latest
 ```
 
-###centos7-php7.3-cli
+####Utils:7.3.13 (latest)
+Build:
+```bash
+docker build --no-cache -t rdeleo/centos7-php7.3-utils:7.3.13 -t rdeleo/centos7-php7.3-utils:latest -f containers/centos/7/php/7.3/utils/Dockerfile .
+```
+Push:
+```bash
+docker push rdeleo/centos7-php7.3-utils:7.3.13
+docker push rdeleo/centos7-php7.3-utils:latest
+```
 
-####7.3.13 (latest) 
+####Apache-Dev:7.3.13 (latest)
+Build:
+```bash
+docker build --no-cache -t rdeleo/centos7-php7.3-apache-dev:7.3.13 -t rdeleo/centos7-php7.3-apache-dev:latest -f containers/centos/7/php/7.3/apache/dev/Dockerfile .
+```
+Push:
+```bash
+docker push rdeleo/centos7-php7.3-apache-dev:7.3.13
+docker push rdeleo/centos7-php7.3-apache-dev:latest
+```
 
+###CentOS7-Php7.2
+
+####Cli:7.2.26 (latest)
 Build:
 ```bash
 docker build --no-cache -t rdeleo/centos7-php7.2-cli:7.2.26 -t rdeleo/centos7-php7.2-cli:latest -f containers/centos/7/php/7.2/cli/Dockerfile .
 ```
-
 Push:
 ```bash
 docker push rdeleo/centos7-php7.2-cli:7.2.26
 docker push rdeleo/centos7-php7.2-cli:latest
-```      
+```
 
+####Utils:7.2.26 (latest)
+Build:
+```bash
+docker build --no-cache -t rdeleo/centos7-php7.2-utils:7.2.26 -t rdeleo/centos7-php7.2-utils:latest -f containers/centos/7/php/7.2/utils/Dockerfile .
+```
+Push:
+```bash
+docker push rdeleo/centos7-php7.2-utils:7.2.26
+docker push rdeleo/centos7-php7.2-utils:latest
+```
+
+####Apache-Dev:7.2.26 (latest)
+Build:
+```bash
+docker build --no-cache -t rdeleo/centos7-php7.2-apache-dev:7.2.26 -t rdeleo/centos7-php7.2-apache-dev:latest -f containers/centos/7/php/7.2/apache/dev/Dockerfile .
+```
+Push:
+```bash
+docker push rdeleo/centos7-php7.2-apache-dev:7.2.26
+docker push rdeleo/centos7-php7.2-apache-dev:latest
+```
+
+
+
+
+
+
+
+
+
+
+
+# Authorize xdebug with selinux
+RUN setsebool -P httpd_can_network_connect 1
+
+
+
+# SeLinux enable apache conf file
+chcon -R -u system_u -t httpd_config_t ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
 
 
 

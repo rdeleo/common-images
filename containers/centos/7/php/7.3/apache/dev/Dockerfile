@@ -1,9 +1,9 @@
 #########################################################
 #                                                       #
-# Centos:7.7 - Php:7.4 - Apache - Dev                   #
+# Centos:7.7 - Php:7.3 - Apache - Dev                   #
 #                                                       #
 #########################################################
-FROM rdeleo/centos7-php7.2-cli:7.2.26
+FROM rdeleo/centos7-php7.3-cli:7.3.13
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 WORKDIR /var/www/html
 
@@ -11,7 +11,7 @@ ARG PHPD_DIR=/etc/php.d
 ARG XDEBUG_INI=15-xdebug.ini
 ARG APACHE_CONF=apache.conf
 ARG TEMPLATES_DIR=/root/templates
-ARG CONTAINER_DIR=/containers/centos/7/php/7.2/apache/dev
+ARG CONTAINER_DIR=/containers/centos/7/php/7.3/apache/dev
 
 # Install apache and php xdebug
 RUN yum install -y httpd php-xdebug
