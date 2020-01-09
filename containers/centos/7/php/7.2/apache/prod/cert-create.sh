@@ -43,31 +43,27 @@ function log_warning() {
 #########################
 log_info "Attempt to obtain a new SSL certificate  ... Started"
 
-if [ "${APP_USE_SSL}" == "YES" ]; then
-    if [ -f "/etc/letsencrypt/live/${APP_DOMAIN_NAME}/fullchain.pem" ]; then
-        log_warning "Certificate already created"
-    else
-        if [ -f ${CERT_LAST_RUN_PID} ]; then
-            DATE_PID=$(head -n 1 ${CERT_LAST_RUN_PID})
-        fi
-
-        if [ "${DATE_NOW}" == "${DATE_PID}" ]; then
-            log_warning "You already attempted to build a certificate today"
-
-            # Here you could decide to stop the attempt, if so uncomment following line
-        else
-            certbot certonly --standalone -n --agree-tos -m ${APACHE_SERVER_ADMIN_EMAIL} -d ${APP_DOMAIN_NAME}
-            if [ -f "/etc/letsencrypt/live/${APP_DOMAIN_NAME}/fullchain.pem" ]; then
-                log_success "Obtained new SSL certificate"
-            else
-                log_error "Attempt to obtain a new SSL certificate  ... FAILED"
-            fi
-
-            echo ${DATE_NOW} > ${CERT_LAST_RUN_PID}
-        fi
-    fi
+if [ -f "/etc/letsencrypt/live/${APP_DOMAIN_NAME}/fullchain.pem" ]; then
+    log_warning "Certificate already created"
 else
-    log_info "SSL certificate renew attempt ... Not Executed because APP_USE_SSL = ${APP_USE_SSL}"
+    if [ -f ${CERT_LAST_RUN_PID} ]; then
+        DATE_PID=$(head -n 1 ${CERT_LAST_RUN_PID})
+    fi
+
+    if [ "${DATE_NOW}" == "${DATE_PID}" ]; then
+        log_warning "You already attempted to build a certificate today"
+
+        # Here you could decide to stop the attempt, if so uncomment following line
+    else
+        certbot certonly --standalone -n --agree-tos -m ${APACHE_SERVER_ADMIN_EMAIL} -d ${APP_DOMAIN_NAME}
+        if [ -f "/etc/letsencrypt/live/${APP_DOMAIN_NAME}/fullchain.pem" ]; then
+            log_success "Obtained new SSL certificate"
+        else
+            log_error "Attempt to obtain a new SSL certificate  ... FAILED"
+        fi
+
+        echo ${DATE_NOW} > ${CERT_LAST_RUN_PID}
+    fi
 fi
 
 log_info "Attempt to obtain a new SSL certificate  ... Completed"

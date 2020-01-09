@@ -8,7 +8,7 @@ LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 WORKDIR /var/www/html
 
 ARG APACHE_CONF=apache.conf
-ARG APACHE_SSL_CONF=apache.conf
+ARG APACHE_SSL_CONF=apache-ssl.conf
 ARG TEMPLATES_DIR=/root/templates
 ARG CONTAINER_DIR=/containers/centos/7/php/7.2/apache/prod
 
@@ -24,11 +24,21 @@ COPY $CONTAINER_DIR/$APACHE_CONF $TEMPLATES_DIR/$APACHE_CONF
 # Copy apache-ssl.conf template
 COPY $CONTAINER_DIR/$APACHE_SSL_CONF $TEMPLATES_DIR/$APACHE_SSL_CONF
 
-# Add docker-entrypoint
+# Copy scripts for SSL certificates
+COPY $CONTAINER_DIR/cert-create.sh /usr/bin/cert-create
+COPY $CONTAINER_DIR/cert-renew.sh /usr/bin/cert-renew
+
+# Set the scripts as executables
+RUN chmod +x /usr/bin/cert-create && \
+    chmod +x /usr/bin/cert-renew
+
+# Copy docker entrypoint
 COPY $CONTAINER_DIR/docker-entrypoint.sh /usr/bin/docker-entrypoint
+
+# Set the docker-entrypoint as executable
 RUN chmod +x /usr/bin/docker-entrypoint
 
-EXPOSE 80
+EXPOSE 80 443
 
 # Define default command
 CMD ["docker-entrypoint"]
