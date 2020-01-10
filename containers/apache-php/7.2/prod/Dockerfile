@@ -87,7 +87,7 @@ RUN chmod +x /usr/bin/cert-create && \
     chmod +x /usr/bin/init-apache-conf && \
     chmod +x /usr/bin/docker-entrypoint
 
-# Add the crontab
+# Add the crontab_ssl
 COPY containers/apache-php/common/conf/crontab /etc/cron.d/crontab
 RUN chmod 0644 /etc/cron.d/crontab
 

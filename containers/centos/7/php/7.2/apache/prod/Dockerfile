@@ -12,8 +12,11 @@ ARG APACHE_SSL_CONF=apache-ssl.conf
 ARG TEMPLATES_DIR=/root/templates
 ARG CONTAINER_DIR=/containers/centos/7/php/7.2/apache/prod
 
-# Install apache and php xdebug
-RUN yum install -y httpd certbot python2-certbot-apache mod_ssl
+# Install apache and certbot
+RUN yum install -y httpd mod_ssl certbot python2-certbot-apache crontabs
+
+# comment out PAM
+RUN sed -i -e '/pam_loginuid.so/s/^/#/' /etc/pam.d/crond
 
 # Make template directory
 RUN mkdir $TEMPLATES_DIR
@@ -31,6 +34,16 @@ COPY $CONTAINER_DIR/cert-renew.sh /usr/bin/cert-renew
 # Set the scripts as executables
 RUN chmod +x /usr/bin/cert-create && \
     chmod +x /usr/bin/cert-renew
+
+# Copy supervisord.conf file
+COPY $CONTAINER_DIR/supervisord.conf /etc/supervisord.conf
+
+# Copy crontab_ssl
+COPY $CONTAINER_DIR/crontab_ssl /etc/cron.d/crontab_ssl
+RUN chmod 0644 /etc/cron.d/crontab_ssl
+
+# Import crontab_ssl
+RUN crontab /etc/cron.d/crontab_ssl
 
 # Copy docker entrypoint
 COPY $CONTAINER_DIR/docker-entrypoint.sh /usr/bin/docker-entrypoint

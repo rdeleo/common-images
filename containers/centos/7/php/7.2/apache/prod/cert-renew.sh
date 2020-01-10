@@ -13,7 +13,6 @@ DATE_PID=0
 DATE_NOW=$(date '+%Y-%m-%d');
 CERT_LAST_RUN_PID=/etc/letsencrypt/lastrun.pid
 # ENV
-APP_USE_SSL=${APP_USE_SSL}
 APP_DOMAIN_NAME=${APP_DOMAIN_NAME}
 APACHE_SERVER_ADMIN_EMAIL=${APACHE_SERVER_ADMIN_EMAIL}
 CRON_LOG_FILE=${CRON_LOG_FILE}
@@ -46,7 +45,11 @@ fi
 
 supervisorctl stop apache
 
+sleep 1
+
 certbot renew --standalone -n --agree-tos -m ${APACHE_SERVER_ADMIN_EMAIL} -d ${APP_DOMAIN_NAME}
+
+sleep 1
 
 supervisorctl start apache
 

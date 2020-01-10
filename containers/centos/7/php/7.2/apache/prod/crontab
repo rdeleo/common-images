@@ -1,1 +1,0 @@
-30 23 * * * root /usr/bin/cert-renew >> /dev/null

@@ -124,6 +124,17 @@ docker push rdeleo/centos7-php7.2-apache-dev:7.2.26
 docker push rdeleo/centos7-php7.2-apache-dev:latest
 ```
 
+####Apache-Prod:7.2.26 (latest)
+Build:
+```bash
+docker build --no-cache -t rdeleo/centos7-php7.2-apache-prod:7.2.26 -t rdeleo/centos7-php7.2-apache-prod:latest -f containers/centos/7/php/7.2/apache/prod/Dockerfile .
+```
+Push:
+```bash
+docker push rdeleo/centos7-php7.2-apache-prod:7.2.26
+docker push rdeleo/centos7-php7.2-apache-prod:latest
+```
+
 
 
 

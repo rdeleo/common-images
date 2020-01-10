@@ -67,5 +67,7 @@ sed -e 's~__APP_DOMAIN_NAME__~'${APP_DOMAIN_NAME}'~g' \
     -e 's~__APACHE_ACCESS_LOG__~'${APACHE_ACCESS_LOG}'~g' \
     ${TEMPLATE_DIR}/${APACHE_CONF_TEMPLATE_FILE} > ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
 
+
+
 # Start Apache
 /usr/sbin/httpd -D FOREGROUND
