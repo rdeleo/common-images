@@ -55,7 +55,12 @@ else
 
         # Here you could decide to stop the attempt, if so uncomment following line
     else
-        certbot certonly --standalone -n --agree-tos -m ${APACHE_SERVER_ADMIN_EMAIL} -d ${APP_DOMAIN_NAME}
+        if [ "${SSL_REGISTER_UNSAFE}" == "YES" ]; then
+            certbot certonly --standalone -n --agree-tos --register-unsafely-without-email -d ${APP_DOMAIN_NAME}
+        else
+            certbot certonly --standalone -n --agree-tos -m ${APACHE_SERVER_ADMIN_EMAIL} -d ${APP_DOMAIN_NAME}
+        fi
+
         if [ -f "/etc/letsencrypt/live/${APP_DOMAIN_NAME}/fullchain.pem" ]; then
             log_success "Obtained new SSL certificate"
         else
