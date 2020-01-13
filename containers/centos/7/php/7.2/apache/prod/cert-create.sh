@@ -73,4 +73,4 @@ else
 fi
 
 log_info "Attempt to obtain a new SSL certificate  ... Completed"
-
+log_info "------------------------------------------------------"

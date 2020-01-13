@@ -49,3 +49,4 @@ certbot renew --pre-hook "supervisorctl stop apache" --post-hook "supervisorctl 
 echo ${DATE_NOW} > ${CERT_LAST_RUN_PID}
 
 log_info "Attempt to renew a new SSL certificate  ... Completed"
+log_info "-----------------------------------------------------"
