@@ -16,6 +16,7 @@ CERT_LAST_RUN_PID=/etc/letsencrypt/lastrun.pid
 APP_DOMAIN_NAME=${APP_DOMAIN_NAME}
 APACHE_SERVER_ADMIN_EMAIL=${APACHE_SERVER_ADMIN_EMAIL}
 CRON_LOG_FILE=${CRON_LOG_FILE}
+SSL_REGISTER_UNSAFE=${SSL_REGISTER_UNSAFE}
 
 
 #########################
@@ -43,15 +44,7 @@ if [ "${DATE_NOW}" == "${DATE_PID}" ]; then
     log_warning "You already attempted to renew a certificate today!"
 fi
 
-supervisorctl stop apache
-
-sleep 1
-
-certbot renew --standalone -n --agree-tos -m ${APACHE_SERVER_ADMIN_EMAIL} -d ${APP_DOMAIN_NAME}
-
-sleep 1
-
-supervisorctl start apache
+certbot renew --pre-hook "supervisorctl stop apache" --post-hook "supervisorctl start apache"
 
 echo ${DATE_NOW} > ${CERT_LAST_RUN_PID}
 
