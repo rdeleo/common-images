@@ -2,7 +2,7 @@
 #########################
 # Author: Riccardo De Leo
 #
-# Description: Centos:7.7 - Php:7.2 - Apache - Dev docker-entrypoint file
+# Description: Centos:7.7 - Php:7.4 - Apache - Dev docker-entrypoint file
 #########################
 set -e
 
