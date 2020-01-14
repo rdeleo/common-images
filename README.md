@@ -1,38 +1,37 @@
-#Common Images
+# Common Images
 
 Docker containers of common utilities.
 
-##How To Test
+Following the container list.
 
-Those containers are designed to be used with an orchestrator, so you should use at least docker compose to get the most of them.
 
-Within the folder examples you can find a series of docker-compose template files relative .env example file.
-To test it:
-1. Target the environment you want to test;
-1. Move the <i>docker-compose.template.yml</i> file to the project directory folder and rename as <i>docker-compose.yml</i>;
-1. Move the <i>.env.example</i> file to the project directory folder and rename as <i>.env</i>;
-1. Run the following command:
-    ```bash
-    docker-compose.yml up
-    ```   
-1. Connect your browser to [localhost:8080](http://localhost:8080).
+## CentOS
 
-##Containers
 
-###CentOS7-Php7.4
+### CentOS 7
 
-####Cli:7.4.1 (latest)
-Build:
+
+#### CentOS7 Php7.4 Cli: 7.4.1
+
+This is the very base container, with only CentOS 7 and Php 7.4.1. 
+
+The easiest way to test this container is to run one in your local machine, you can use the following command:
 ```bash
-docker build --no-cache -t rdeleo/centos7-php7.4-cli:7.4.1 -t rdeleo/centos7-php7.4-cli:latest -f containers/centos/7/php/7.4/cli/Dockerfile .
-```
-Push:
-```bash
-docker push rdeleo/centos7-php7.4-cli:7.4.1
-docker push rdeleo/centos7-php7.4-cli:latest
+docker run --rm rdeleo/centos7-php7.4-cli:7.4.1 php -v
 ```
 
-####Utils:7.4.1 (latest)
+#### CentOS7 Php7.4 Utils: 7.4.1
+
+This is the utils container, with CentOS 7, Php 7.4.1, composer and prestissimo.
+
+The easiest way to test this container is to run one in your local machine, you can use the following command:
+
+```bash
+docker run --rm rdeleo/centos7-php7.4-cli:7.4.1 composer -v
+```
+
+<b>Useful commands:</b>
+
 Build:
 ```bash
 docker build --no-cache -t rdeleo/centos7-php7.4-utils:7.4.1 -t rdeleo/centos7-php7.4-utils:latest -f containers/centos/7/php/7.4/utils/Dockerfile .
@@ -43,7 +42,22 @@ docker push rdeleo/centos7-php7.4-utils:7.4.1
 docker push rdeleo/centos7-php7.4-utils:latest
 ```
 
-####Apache-Dev:7.4.1 (latest)
+#### CentOS7 Php7.4 Apache Dev: 7.4.1
+
+This is the development container, with CentOS 7, Php 7.4.1, Apache 2.4.6 and XDebug.
+
+This containers is designed to be used with an orchestrator, to test it you should use docker-compose with the following instructions:
+1. Open the folder examples and target the environment you want to test: centos/7/php/7.4/apache/dev/
+1. Move the <i>docker-compose.template.yml</i> file to the project directory folder and rename as <i>docker-compose.yml</i>;
+1. Move the <i>.env.example</i> file to the project directory folder and rename as <i>.env</i>;
+1. Run the following command:
+    ```bash
+    docker-compose.yml up
+    ```   
+1. Connect your browser to [localhost:8080](http://localhost:8080).
+
+<b>Useful commands:</b>
+
 Build:
 ```bash
 docker build --no-cache -t rdeleo/centos7-php7.4-apache-dev:7.4.1 -t rdeleo/centos7-php7.4-apache-dev:latest -f containers/centos/7/php/7.4/apache/dev/Dockerfile .
@@ -54,9 +68,45 @@ docker push rdeleo/centos7-php7.4-apache-dev:7.4.1
 docker push rdeleo/centos7-php7.4-apache-dev:latest
 ```
 
-###CentOS7-Php7.3
+#### CentOS7 Php7.4 Apache Prod: 7.4.1
 
-####Cli:7.3.13 (latest) 
+This is the production container, with CentOS 7, Php 7.4.1, Apache 2.4.6 and Certbot to manage SSL certificates.
+
+This containers is designed to be used with an orchestrator, to test it you should use docker-compose with the following instructions:
+1. Ensure you're exposing the http and https ports (80 and 443)
+1. Open the folder examples and target the environment you want to test: centos/7/php/7.4/apache/prod/
+1. Move and edit the <i>docker-compose.template.yml</i> file to the project directory folder and rename as <i>docker-compose.yml</i>;
+1. Move and edit the <i>.env.example</i> file to the project directory folder and rename as <i>.env</i>;
+1. Run the following command:
+    ```bash
+    docker-compose.yml up -d
+    ```   
+1. Connect your browser to your domain name.
+
+<b>Useful commands:</b>
+
+Build:
+```bash
+docker build --no-cache -t rdeleo/centos7-php7.4-apache-prod:7.4.1 -t rdeleo/centos7-php7.4-apache-prod:latest -f containers/centos/7/php/7.4/apache/prod/Dockerfile .
+```
+Push:
+```bash
+docker push rdeleo/centos7-php7.4-apache-prod:7.4.1
+docker push rdeleo/centos7-php7.4-apache-prod:latest
+```
+
+
+#### CentOS7 Php7.3 Cli: 7.3.13
+
+This is the very base container, with only CentOS 7 and Php 7.3.13. 
+
+The easiest way to test this container is to run one in your local machine, you can use the following command:
+```bash
+docker run --rm rdeleo/centos7-php7.3-cli:7.3.13 php -v
+```
+
+<b>Useful commands:</b>
+
 Build:
 ```bash
 docker build --no-cache -t rdeleo/centos7-php7.3-cli:7.3.13 -t rdeleo/centos7-php7.3-cli:latest -f containers/centos/7/php/7.3/cli/Dockerfile .
@@ -67,7 +117,18 @@ docker push rdeleo/centos7-php7.3-cli:7.3.13
 docker push rdeleo/centos7-php7.3-cli:latest
 ```
 
-####Utils:7.3.13 (latest)
+#### CentOS7 Php7.3 Utils: 7.3.13
+
+This is the utils container, with CentOS 7, Php 7.3.13, composer and prestissimo.
+
+The easiest way to test this container is to run one in your local machine, you can use the following command:
+
+```bash
+docker run --rm rdeleo/centos7-php7.3-cli:7.3.13 composer -v
+```
+
+<b>Useful commands:</b>
+
 Build:
 ```bash
 docker build --no-cache -t rdeleo/centos7-php7.3-utils:7.3.13 -t rdeleo/centos7-php7.3-utils:latest -f containers/centos/7/php/7.3/utils/Dockerfile .
@@ -78,7 +139,22 @@ docker push rdeleo/centos7-php7.3-utils:7.3.13
 docker push rdeleo/centos7-php7.3-utils:latest
 ```
 
-####Apache-Dev:7.3.13 (latest)
+#### CentOS7 Php7.3 Apache Dev: 7.3.13
+
+This is the development container, with CentOS 7, Php 7.3.13, Apache 2.4.6 and XDebug.
+
+This containers is designed to be used with an orchestrator, to test it you should use docker-compose with the following instructions:
+1. Open the folder examples and target the environment you want to test: centos/7/php/7.3/apache/dev/
+1. Move the <i>docker-compose.template.yml</i> file to the project directory folder and rename as <i>docker-compose.yml</i>;
+1. Move the <i>.env.example</i> file to the project directory folder and rename as <i>.env</i>;
+1. Run the following command:
+    ```bash
+    docker-compose.yml up
+    ```   
+1. Connect your browser to [localhost:8080](http://localhost:8080).
+
+<b>Useful commands:</b>
+
 Build:
 ```bash
 docker build --no-cache -t rdeleo/centos7-php7.3-apache-dev:7.3.13 -t rdeleo/centos7-php7.3-apache-dev:latest -f containers/centos/7/php/7.3/apache/dev/Dockerfile .
@@ -89,9 +165,45 @@ docker push rdeleo/centos7-php7.3-apache-dev:7.3.13
 docker push rdeleo/centos7-php7.3-apache-dev:latest
 ```
 
-###CentOS7-Php7.2
+#### CentOS7 Php7.3 Apache Prod: 7.3.13
 
-####Cli:7.2.26 (latest)
+This is the production container, with CentOS 7, Php 7.3.13, Apache 2.4.6 and Certbot to manage SSL certificates.
+
+This containers is designed to be used with an orchestrator, to test it you should use docker-compose with the following instructions:
+1. Ensure you're exposing the http and https ports (80 and 443)
+1. Open the folder examples and target the environment you want to test: centos/7/php/7.3/apache/prod/
+1. Move and edit the <i>docker-compose.template.yml</i> file to the project directory folder and rename as <i>docker-compose.yml</i>;
+1. Move and edit the <i>.env.example</i> file to the project directory folder and rename as <i>.env</i>;
+1. Run the following command:
+    ```bash
+    docker-compose.yml up -d
+    ```   
+1. Connect your browser to your domain name.
+
+<b>Useful commands:</b>
+
+Build:
+```bash
+docker build --no-cache -t rdeleo/centos7-php7.3-apache-prod:7.3.13 -t rdeleo/centos7-php7.3-apache-prod:latest -f containers/centos/7/php/7.3/apache/prod/Dockerfile .
+```
+Push:
+```bash
+docker push rdeleo/centos7-php7.3-apache-prod:7.3.13
+docker push rdeleo/centos7-php7.3-apache-prod:latest
+```
+
+
+#### CentOS7 Php7.2 Cli: 7.2.26
+
+This is the very base container, with only CentOS 7 and Php 7.2.26. 
+
+The easiest way to test this container is to run one in your local machine, you can use the following command:
+```bash
+docker run --rm rdeleo/centos7-php7.2-cli:7.2.26 php -v
+```
+
+<b>Useful commands:</b>
+
 Build:
 ```bash
 docker build --no-cache -t rdeleo/centos7-php7.2-cli:7.2.26 -t rdeleo/centos7-php7.2-cli:latest -f containers/centos/7/php/7.2/cli/Dockerfile .
@@ -102,7 +214,18 @@ docker push rdeleo/centos7-php7.2-cli:7.2.26
 docker push rdeleo/centos7-php7.2-cli:latest
 ```
 
-####Utils:7.2.26 (latest)
+#### CentOS7 Php7.2 Utils: 7.2.26
+
+This is the utils container, with CentOS 7, Php 7.2.26, composer and prestissimo.
+
+The easiest way to test this container is to run one in your local machine, you can use the following command:
+
+```bash
+docker run --rm rdeleo/centos7-php7.2-cli:7.2.26 composer -v
+```
+
+<b>Useful commands:</b>
+
 Build:
 ```bash
 docker build --no-cache -t rdeleo/centos7-php7.2-utils:7.2.26 -t rdeleo/centos7-php7.2-utils:latest -f containers/centos/7/php/7.2/utils/Dockerfile .
@@ -113,7 +236,22 @@ docker push rdeleo/centos7-php7.2-utils:7.2.26
 docker push rdeleo/centos7-php7.2-utils:latest
 ```
 
-####Apache-Dev:7.2.26 (latest)
+#### CentOS7 Php7.2 Apache Dev: 7.2.26
+
+This is the development container, with CentOS 7, Php 7.2.26, Apache 2.4.6 and XDebug.
+
+This containers is designed to be used with an orchestrator, to test it you should use docker-compose with the following instructions:
+1. Open the folder examples and target the environment you want to test: centos/7/php/7.2/apache/dev/
+1. Move the <i>docker-compose.template.yml</i> file to the project directory folder and rename as <i>docker-compose.yml</i>;
+1. Move the <i>.env.example</i> file to the project directory folder and rename as <i>.env</i>;
+1. Run the following command:
+    ```bash
+    docker-compose.yml up
+    ```   
+1. Connect your browser to [localhost:8080](http://localhost:8080).
+
+<b>Useful commands:</b>
+
 Build:
 ```bash
 docker build --no-cache -t rdeleo/centos7-php7.2-apache-dev:7.2.26 -t rdeleo/centos7-php7.2-apache-dev:latest -f containers/centos/7/php/7.2/apache/dev/Dockerfile .
@@ -124,7 +262,23 @@ docker push rdeleo/centos7-php7.2-apache-dev:7.2.26
 docker push rdeleo/centos7-php7.2-apache-dev:latest
 ```
 
-####Apache-Prod:7.2.26 (latest)
+#### CentOS7 Php7.2 Apache Prod: 7.2.26
+
+This is the production container, with CentOS 7, Php 7.2.26, Apache 2.4.6 and Certbot to manage SSL certificates.
+
+This containers is designed to be used with an orchestrator, to test it you should use docker-compose with the following instructions:
+1. Ensure you're exposing the http and https ports (80 and 443)
+1. Open the folder examples and target the environment you want to test: centos/7/php/7.2/apache/prod/
+1. Move and edit the <i>docker-compose.template.yml</i> file to the project directory folder and rename as <i>docker-compose.yml</i>;
+1. Move and edit the <i>.env.example</i> file to the project directory folder and rename as <i>.env</i>;
+1. Run the following command:
+    ```bash
+    docker-compose.yml up -d
+    ```   
+1. Connect your browser to your domain name.
+
+<b>Useful commands:</b>
+
 Build:
 ```bash
 docker build --no-cache -t rdeleo/centos7-php7.2-apache-prod:7.2.26 -t rdeleo/centos7-php7.2-apache-prod:latest -f containers/centos/7/php/7.2/apache/prod/Dockerfile .
@@ -145,67 +299,6 @@ docker push rdeleo/centos7-php7.2-apache-prod:latest
 
 
 
-# Authorize xdebug with selinux
-RUN setsebool -P httpd_can_network_connect 1
-
-
-
-# SeLinux enable apache conf file
-chcon -R -u system_u -t httpd_config_t ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
-
-
-
-
-
-
-
-
-
-
-#### Environment Variables
-You have to setup the following environment variables to run properly the prod container:
- 
-Apache variables (var name and description)
-
-- APP_USE_SSL               YES or empty / anything else if you don't want to use ssl
-- APP_DOMAIN_NAME           App domain name without protocol prefix
-- CRON_LOG_FILE             Path and filename of the cron log file, usually ```/var/log/cron/cron.log```
-- APACHE_SERVER_ADMIN_EMAIL Apache server admin email
-- APACHE_DOCUMENT_ROOT      Path for the apache document root, usually ```/var/www/html```
-- APACHE_ERROR_LOG          Path and filename for apache error log
-- APACHE_ACCESS_LOG         Path and filename for apache access log
-- APACHE_SSL_ERROR_LOG      Path and filename for apache ssl error log
-- APACHE_SSL_ACCESS_LOG     Path and filename for apache ssl access log
-- SSL_CERTIFICATE_FILE      Path and filename for cert file
-- SSL_CERTIFICATE_KEY_FILE  Path and filename for cert key file
-
-PHP variables (var name and suggested default value)
-
-- PHP_DOCREF_ROOT=0
-- PHP_DOCREF_EXT=0
-- PHP_SHORT_OPEN_TAG=Off
-- PHP_DYSPLAY_STARTUP_ERRORS=Off
-- PHP_DYSPLAY_ERRORS=Off
-- PHP_HTML_ERRORS=Off
-- PHP_LOG_ERRORS=On
-- PHP_ERROR_LOG=/var/log/php/error.log
-- PHP_ERROR_REPORTING=E_ERROR
-- PHP_MEMORY_LIMIT=1024M
-- PHP_UPLOAD_MAX_FILESIZE=256M
-- PHP_POST_MAX_SIZE=256M
-- PHP_MAX_EXECUTION_TIME=300
-- PHP_MAX_INPUT_TIME=240
-- PHP_MAX_INPUT_NESTING_LEVEL=100
-- PHP_MAX_INPUT_VARS=1000
-
-#### Volumes
-I would suggest you to bind the following volumes:
-
-- /var/www/html
-- /var/log/apache2
-- /var/log/cron
-- /var/log/php
-- /var/log/supervisord
 
 #### Build
 
