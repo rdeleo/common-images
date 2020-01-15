@@ -1,11 +1,16 @@
 #########################################################
 #                                                       #
-# Debian:10 - Php:7.2 - Cli                             #
+# Debian:10 - Php:7.2 - Apache - Prod                   #
 #                                                       #
 #########################################################
-FROM php:7.2.26-cli-buster
+FROM php:7.2.26-apache-buster
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 WORKDIR /var/www/html
+
+ARG APACHE_CONF=apache.conf
+ARG APACHE_SSL_CONF=apache-ssl.conf
+ARG TEMPLATES_DIR=/var/www/templates
+ARG CONTAINER_DIR=/containers/centos/7/php/7.2/apache/prod
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -37,10 +42,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
     && docker-php-ext-install mysqli pdo pdo_mysql \
     ## git, curl and unzip
     && apt-get install -y --no-install-recommends git curl unzip \
+    ## Cron and spervisor
+    && apt-get install -y --no-install-recommends cron rsyslog supervisor \
+    && rm -rf /etc/cron.* \
+    && mkdir /var/log/cron && touch /var/log/cron/cron.log \
     ## Clean-up
     && rm -rf /var/lib/apt/lists/*
 
-#Install redis extension
+# Install redis extension
 #
 # 2019-01-31 - PECL FIX - Install redis from source
 # 2020-01-15 - UPDATE   - Updated to phpredis 5.1.1
@@ -51,3 +60,50 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/5.
     && mkdir /usr/src/php/ext \
     && mv phpredis-5.1.1 /usr/src/php/ext/redis \
     && docker-php-ext-install redis
+
+# Install certbot
+RUN echo "deb http://ftp.debian.org/debian buster-backports main" >> /etc/apt/sources.list && \
+    apt update -y && \
+    apt-get install -y certbot -t buster-backports
+
+# Make template directory
+RUN mkdir $TEMPLATES_DIR
+
+# Copy apache.conf template
+COPY $CONTAINER_DIR/$APACHE_CONF $TEMPLATES_DIR/$APACHE_CONF
+
+# Copy apache-ssl.conf template
+COPY $CONTAINER_DIR/$APACHE_SSL_CONF $TEMPLATES_DIR/$APACHE_SSL_CONF
+
+# Copy scripts for SSL certificates
+COPY $CONTAINER_DIR/cert-create.sh /usr/bin/cert-create
+COPY $CONTAINER_DIR/cert-renew.sh /usr/bin/cert-renew
+
+# Set the scripts as executables
+RUN chmod +x /usr/bin/cert-create && \
+    chmod +x /usr/bin/cert-renew
+
+# Copy supervisord.conf file
+COPY $CONTAINER_DIR/supervisord.conf /etc/supervisord.conf
+
+# Create supervisord log folder
+RUN mkdir -p /var/log/supervisord
+
+# Copy crontab_ssl
+COPY $CONTAINER_DIR/crontab_ssl /etc/cron.d/crontab
+RUN chmod 0644 /etc/cron.d/crontab
+
+# Activate apache rewrite and ssl modules
+RUN a2enmod rewrite && \
+    a2enmod ssl
+
+# Copy docker entrypoint
+COPY $CONTAINER_DIR/docker-entrypoint.sh /usr/bin/docker-entrypoint
+
+# Set the docker-entrypoint as executable
+RUN chmod +x /usr/bin/docker-entrypoint
+
+EXPOSE 80 443
+
+# Define default command
+CMD ["docker-entrypoint"]

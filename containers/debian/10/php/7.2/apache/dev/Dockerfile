@@ -1,11 +1,15 @@
 #########################################################
 #                                                       #
-# Debian:10 - Php:7.2 - Cli                             #
+# Debian:10 - Php:7.2 - Apache - Dev                    #
 #                                                       #
 #########################################################
-FROM php:7.2.26-cli-buster
+FROM php:7.2.26-apache-buster
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 WORKDIR /var/www/html
+
+ARG XDEBUG_INI=xdebug.ini
+ARG TEMPLATES_DIR=/var/www/templates
+ARG CONTAINER_DIR=/containers/debian/10/php/7.2/apache/dev
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -51,3 +55,43 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/5.
     && mkdir /usr/src/php/ext \
     && mv phpredis-5.1.1 /usr/src/php/ext/redis \
     && docker-php-ext-install redis
+
+#Install xdebug
+RUN pecl install xdebug-2.9.0 \
+    && docker-php-ext-enable xdebug
+
+# Make template directory
+RUN mkdir $TEMPLATES_DIR
+
+# Add placeholders xdebug.ini file
+RUN touch $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.idekey = __XDEBUG_ID_KEY__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.default_enable = __XDEBUG_DEFAULT_ENABLE__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.remote_log = __XDEBUG_REMOTE_LOG__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.remote_enable = __XDEBUG_REMOTE_ENABLE__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.remote_autostart = __XDEBUG_REMOTE_AUTOSTART__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.remote_connect_back = __XDEBUG_REMOTE_CONNECT_BACK__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.remote_port = __XDEBUG_REMOTE_PORT__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.profiler_enable = __XDEBUG_PROFILER_ENABLE__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.remote_host = __DOCKER_HOST_IP__" >> $TEMPLATES_DIR/$XDEBUG_INI
+
+## Apache PHP preparation
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data \
+    && echo "ServerName localhost" >> /etc/apache2/apache2.conf \
+    && a2enmod rewrite \
+    && a2enmod ssl
+
+# Copy apache.conf template
+COPY $CONTAINER_DIR/$APACHE_CONF $TEMPLATES_DIR/$APACHE_CONF
+
+# Activate apache rewrite module
+RUN a2enmod rewrite
+
+# Add docker-entrypoint
+COPY $CONTAINER_DIR/docker-entrypoint.sh /usr/bin/docker-entrypoint
+RUN chmod +x /usr/bin/docker-entrypoint
+
+EXPOSE 80
+
+# Define default command
+CMD ["docker-entrypoint"]

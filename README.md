@@ -411,7 +411,7 @@ docker push rdeleo/debian10-php7.2-cli:latest
 
 #### Debian10 Php7.2 Utils: 7.2.26
 
-This is the utils container, with Debian10 7, Php 7.2.26, composer and prestissimo.
+This is the utils container, with Debian 10, Php 7.2.26, composer and prestissimo.
 
 The easiest way to test this container is to run one in your local machine, you can use the following command:
 
@@ -431,10 +431,58 @@ docker push rdeleo/debian10-php7.2-utils:7.2.26
 docker push rdeleo/debian10-php7.2-utils:latest
 ```
 
+#### Debian10 Php7.2 Apache Dev: 7.2.26
 
+This is the development container, with Debian 10 7, Php 7.2.26, Apache 2.4.38 and XDebug.
 
+This containers is designed to be used with an orchestrator, to test it you should use docker-compose with the following instructions:
+1. Open the folder examples and target the environment you want to test: debian/10/php/7.2/apache/dev/
+1. Move the <i>docker-compose.template.yml</i> file to the project directory folder and rename as <i>docker-compose.yml</i>;
+1. Move the <i>.env.example</i> file to the project directory folder and rename as <i>.env</i>;
+1. Run the following command:
+    ```bash
+    docker-compose.yml up
+    ```   
+1. Connect your browser to [localhost:8080](http://localhost:8080).
 
+<b>Useful commands:</b>
 
+Build:
+```bash
+docker build --no-cache -t rdeleo/debian10-php7.2-apache-dev:7.2.26 -t rdeleo/debian10-php7.2-apache-dev:latest -f containers/debian/10/php/7.2/apache/dev/Dockerfile .
+```
+Push:
+```bash
+docker push rdeleo/debian10-php7.2-apache-dev:7.2.26
+docker push rdeleo/debian10-php7.2-apache-dev:latest
+```
+
+#### Debian10 Php7.2 Apache Prod: 7.2.26
+
+This is the production container, with Debian 7, Php 7.2.26, Apache 2.4.38 and Certbot to manage SSL certificates.
+
+This containers is designed to be used with an orchestrator, to test it you should use docker-compose with the following instructions:
+1. Ensure you're exposing the http and https ports (80 and 443)
+1. Open the folder examples and target the environment you want to test: debian/10/php/7.2/apache/prod/
+1. Move and edit the <i>docker-compose.template.yml</i> file to the project directory folder and rename as <i>docker-compose.yml</i>;
+1. Move and edit the <i>.env.example</i> file to the project directory folder and rename as <i>.env</i>;
+1. Run the following command:
+    ```bash
+    docker-compose.yml up -d
+    ```   
+1. Connect your browser to your domain name.
+
+<b>Useful commands:</b>
+
+Build:
+```bash
+docker build --no-cache -t rdeleo/debian10-php7.2-apache-prod:7.2.26 -t rdeleo/debian10-php7.2-apache-prod:latest -f containers/debian/10/php/7.2/apache/prod/Dockerfile .
+```
+Push:
+```bash
+docker push rdeleo/debian10-php7.2-apache-prod:7.2.26
+docker push rdeleo/debian10-php7.2-apache-prod:latest
+```
 
 
 
