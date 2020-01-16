@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  app:
+    image: rdeleo/centos7-php7.3-apache-prod:7.3.13
+    volumes:
+      - ./fixtures:/var/www/html
+    ports:
+      - 80:80
+      - 443:443
+    env_file:
+      - .env
