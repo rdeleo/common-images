@@ -6,6 +6,7 @@
 #########################
 set -e
 
+
 #########################
 # VARIABLES
 #########################
@@ -30,6 +31,7 @@ APACHE_CONF_TEMPLATE_FILE=apache.conf
 TEMPLATE_DIR=/root/templates
 PHPD_DIR=/etc/php.d
 
+
 #########################
 # FUNCTIONS
 #########################
@@ -41,6 +43,7 @@ function clean_files() {
         rm ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
     fi
 }
+
 
 #########################
 # MAIN

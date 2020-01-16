@@ -2,7 +2,7 @@
 #########################
 # Author: Riccardo De Leo
 #
-# Description: Debian:10 - Php:7.2 - Apache - Prod docker-entrypoint file
+# Description: Debian:10 - Php:7.3 - Apache - Prod docker-entrypoint file
 #########################
 set -e
 

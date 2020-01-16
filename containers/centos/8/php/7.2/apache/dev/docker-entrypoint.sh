@@ -2,10 +2,9 @@
 #########################
 # Author: Riccardo De Leo
 #
-# Description: Centos:7.7 - Php:7.4 - Apache - Dev docker-entrypoint file
+# Description: Centos:7.7 - Php:7.2 - Apache - Dev docker-entrypoint file
 #########################
 set -e
-
 
 #########################
 # VARIABLES
@@ -31,7 +30,6 @@ APACHE_CONF_TEMPLATE_FILE=apache.conf
 TEMPLATE_DIR=/root/templates
 PHPD_DIR=/etc/php.d
 
-
 #########################
 # FUNCTIONS
 #########################
@@ -43,7 +41,6 @@ function clean_files() {
         rm ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
     fi
 }
-
 
 #########################
 # MAIN
@@ -65,10 +62,12 @@ sed -e 's~__XDEBUG_ID_KEY__~'${XDEBUG_ID_KEY}'~g' \
 # Init apache
 sed -e 's~__APP_DOMAIN_NAME__~'${APP_DOMAIN_NAME}'~g' \
     -e 's~__APACHE_SERVER_ADMIN_EMAIL__~'${APACHE_SERVER_ADMIN_EMAIL}'~g' \
-    -e 's~__APACHE_DOCUMENT_ROOT__~"'${APACHE_DOCUMENT_ROOT}'"~g' \
+    -e 's~__APACHE_DOCUMENT_ROOT__~'${APACHE_DOCUMENT_ROOT}'~g' \
     -e 's~__APACHE_ERROR_LOG__~'${APACHE_ERROR_LOG}'~g' \
     -e 's~__APACHE_ACCESS_LOG__~'${APACHE_ACCESS_LOG}'~g' \
     ${TEMPLATE_DIR}/${APACHE_CONF_TEMPLATE_FILE} > ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
+
+
 
 # Start Apache
 /usr/sbin/httpd -D FOREGROUND

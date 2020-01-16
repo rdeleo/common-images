@@ -1,20 +1,20 @@
 #########################################################
 #                                                       #
-# Debian:10 - Php:7.2 - Apache - Prod                   #
+# Debian:10 - Php:7.3 - Apache - Prod                   #
 #                                                       #
 #########################################################
-FROM php:7.2.26-apache-buster
+FROM php:7.3.13-apache-buster
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 WORKDIR /var/www/html
 
 ARG APACHE_CONF=apache.conf
 ARG TEMPLATES_DIR=/var/www/templates
-ARG CONTAINER_DIR=/containers/debian/10/php/7.2/apache/prod
+ARG CONTAINER_DIR=/containers/debian/10/php/7.3/apache/prod
 
 ENV DEBIAN_FRONTEND noninteractive
 
 # Upgrade and install base packages
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils libzip-dev \
     ## Zip extension
     && apt-get install -y --no-install-recommends zlib1g-dev \
     && docker-php-ext-install zip \

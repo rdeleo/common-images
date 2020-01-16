@@ -6,6 +6,7 @@
 #########################
 set -e
 
+
 #########################
 # VARIABLES
 #########################
@@ -28,7 +29,8 @@ APACHE_CONF_DIR=/etc/httpd/conf.d
 APACHE_CONF_FILE=${APP_DOMAIN_NAME}.conf
 APACHE_CONF_TEMPLATE_FILE=apache.conf
 TEMPLATE_DIR=/root/templates
-PHPD_DIR=/etc/php.d
+PHPD_DIR=/usr/local/etc/php/conf.d
+
 
 #########################
 # FUNCTIONS
@@ -41,6 +43,7 @@ function clean_files() {
         rm ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
     fi
 }
+
 
 #########################
 # MAIN
@@ -66,8 +69,6 @@ sed -e 's~__APP_DOMAIN_NAME__~'${APP_DOMAIN_NAME}'~g' \
     -e 's~__APACHE_ERROR_LOG__~'${APACHE_ERROR_LOG}'~g' \
     -e 's~__APACHE_ACCESS_LOG__~'${APACHE_ACCESS_LOG}'~g' \
     ${TEMPLATE_DIR}/${APACHE_CONF_TEMPLATE_FILE} > ${APACHE_CONF_DIR}/${APACHE_CONF_FILE}
-
-
 
 # Start Apache
 /usr/sbin/httpd -D FOREGROUND

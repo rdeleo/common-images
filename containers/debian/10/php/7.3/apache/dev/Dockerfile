@@ -1,20 +1,20 @@
 #########################################################
 #                                                       #
-# Debian:10 - Php:7.2 - Apache - Prod                   #
+# Debian:10 - Php:7.3 - Apache - Dev                    #
 #                                                       #
 #########################################################
-FROM php:7.2.26-apache-buster
+FROM php:7.3.13-apache-buster
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 WORKDIR /var/www/html
 
-ARG APACHE_CONF=apache.conf
+ARG XDEBUG_INI=xdebug.ini
 ARG TEMPLATES_DIR=/var/www/templates
-ARG CONTAINER_DIR=/containers/debian/10/php/7.2/apache/prod
+ARG CONTAINER_DIR=/containers/debian/10/php/7.3/apache/dev
 
 ENV DEBIAN_FRONTEND noninteractive
 
 # Upgrade and install base packages
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils libzip-dev \
     ## Zip extension
     && apt-get install -y --no-install-recommends zlib1g-dev \
     && docker-php-ext-install zip \
@@ -41,14 +41,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
     && docker-php-ext-install mysqli pdo pdo_mysql \
     ## git, curl and unzip
     && apt-get install -y --no-install-recommends git curl unzip \
-    ## Cron and spervisor
-    && apt-get install -y --no-install-recommends cron rsyslog supervisor \
-    && rm -rf /etc/cron.* \
-    && mkdir /var/log/cron && touch /var/log/cron/cron.log \
     ## Clean-up
     && rm -rf /var/lib/apt/lists/*
 
-# Install redis extension
+#Install redis extension
 #
 # 2019-01-31 - PECL FIX - Install redis from source
 # 2020-01-15 - UPDATE   - Updated to phpredis 5.1.1
@@ -60,46 +56,42 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/5.
     && mv phpredis-5.1.1 /usr/src/php/ext/redis \
     && docker-php-ext-install redis
 
-# Install certbot
-RUN echo "deb http://ftp.debian.org/debian buster-backports main" >> /etc/apt/sources.list && \
-    apt update -y && \
-    apt-get install -y certbot -t buster-backports
+#Install xdebug
+RUN pecl install xdebug-2.9.0 \
+    && docker-php-ext-enable xdebug
 
 # Make template directory
 RUN mkdir $TEMPLATES_DIR
 
+# Add placeholders xdebug.ini file
+RUN touch $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.idekey = __XDEBUG_ID_KEY__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.default_enable = __XDEBUG_DEFAULT_ENABLE__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.remote_log = __XDEBUG_REMOTE_LOG__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.remote_enable = __XDEBUG_REMOTE_ENABLE__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.remote_autostart = __XDEBUG_REMOTE_AUTOSTART__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.remote_connect_back = __XDEBUG_REMOTE_CONNECT_BACK__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.remote_port = __XDEBUG_REMOTE_PORT__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.profiler_enable = __XDEBUG_PROFILER_ENABLE__" >> $TEMPLATES_DIR/$XDEBUG_INI \
+    && echo "xdebug.remote_host = __DOCKER_HOST_IP__" >> $TEMPLATES_DIR/$XDEBUG_INI
+
+## Apache PHP preparation
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data \
+    && echo "ServerName localhost" >> /etc/apache2/apache2.conf \
+    && a2enmod rewrite \
+    && a2enmod ssl
+
 # Copy apache.conf template
 COPY $CONTAINER_DIR/$APACHE_CONF $TEMPLATES_DIR/$APACHE_CONF
 
-# Copy scripts for SSL certificates
-COPY $CONTAINER_DIR/cert-create.sh /usr/bin/cert-create
-COPY $CONTAINER_DIR/cert-renew.sh /usr/bin/cert-renew
+# Activate apache rewrite module
+RUN a2enmod rewrite
 
-# Set the scripts as executables
-RUN chmod +x /usr/bin/cert-create && \
-    chmod +x /usr/bin/cert-renew
-
-# Copy supervisord.conf file
-COPY $CONTAINER_DIR/supervisord.conf /etc/supervisord.conf
-
-# Create supervisord log folder
-RUN mkdir -p /var/log/supervisord
-
-# Copy crontab_ssl
-COPY $CONTAINER_DIR/crontab_ssl /etc/cron.d/crontab
-RUN chmod 0644 /etc/cron.d/crontab
-
-# Activate apache rewrite and ssl modules
-RUN a2enmod rewrite && \
-    a2enmod ssl
-
-# Copy docker entrypoint
+# Add docker-entrypoint
 COPY $CONTAINER_DIR/docker-entrypoint.sh /usr/bin/docker-entrypoint
-
-# Set the docker-entrypoint as executable
 RUN chmod +x /usr/bin/docker-entrypoint
 
-EXPOSE 80 443
+EXPOSE 80
 
 # Define default command
 CMD ["docker-entrypoint"]
