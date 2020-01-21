@@ -14,7 +14,7 @@ RUN yum update -y \
     && yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
     && yum-config-manager --enable remi-php73 \
     && yum install -y php php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysqld php-mysqli \
-    && yum install -y php-zip php73-php-imap php73-php-xml php73-php-zip php73-php-mbstring php-pecl-redis
+    && yum install -y php-zip php73-php-imap php73-php-xml php-xml php73-php-zip php73-php-mbstring php-pecl-redis
 
 # Set default timezone, activate mysqli and zip extensions
 RUN sed -e "s~;date.timezone =~date.timezone = \"UTC\"~g" -i /etc/php.ini
