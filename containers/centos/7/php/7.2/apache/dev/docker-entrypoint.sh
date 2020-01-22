@@ -29,7 +29,7 @@ APACHE_CONF_DIR=/etc/httpd/conf.d
 APACHE_CONF_FILE=${APP_DOMAIN_NAME}.conf
 APACHE_CONF_TEMPLATE_FILE=apache.conf
 TEMPLATE_DIR=/root/templates
-PHPD_DIR=/usr/local/etc/php/conf.d
+PHPD_DIR=/etc/php.d
 
 
 #########################
