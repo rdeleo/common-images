@@ -1,8 +1,8 @@
 #!/bin/bash
 
-PHP_74_LATEST=7.4.2
-PHP_73_LATEST=7.3.14
-PHP_72_LATEST=7.2.27
+PHP_74_LATEST=7.4.3
+PHP_73_LATEST=7.3.15
+PHP_72_LATEST=7.2.28
 
 docker build --no-cache -t rdeleo/centos7-php7.4-cli:${PHP_74_LATEST} -t rdeleo/centos7-php7.4-cli:latest -f containers/centos/7/php/7.4/cli/Dockerfile .
 docker push rdeleo/centos7-php7.4-cli:${PHP_74_LATEST}
