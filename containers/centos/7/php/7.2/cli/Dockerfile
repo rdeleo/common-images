@@ -5,7 +5,6 @@
 #########################################################
 FROM centos:7
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
-WORKDIR /home/centos
 
 # Upgrade and install base packages
 RUN yum update -y \

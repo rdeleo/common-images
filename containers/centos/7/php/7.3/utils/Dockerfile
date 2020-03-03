@@ -5,14 +5,18 @@
 #########################################################
 FROM rdeleo/centos7-php7.3-cli:7.3.15
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
-WORKDIR /home/centos
 
 # Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN chmod +x /usr/bin/composer
 
-# Allows root to run composer
-ENV COMPOSER_ALLOW_SUPERUSER=1
+# Create centos user
+RUN groupadd -g 1000 centos \
+    && useradd -rm -d /home/centos -s /bin/bash -g 1000 -u 1000 centos
+
+USER centos
+
+WORKDIR /home/centos
 
 # Install prestissimo
 RUN /usr/bin/composer global require hirak/prestissimo

@@ -41,6 +41,12 @@ COPY $CONTAINER_DIR/supervisord.conf /etc/supervisord.conf
 # Create supervisord log folder
 RUN mkdir /var/log/supervisord
 
+# Modify apache user and relative folders
+RUN usermod -u 1000 apache \
+    && groupmod -g 1000 apache \
+    && chown apache:apache /var/log/httpd \
+    && chown apache:apache /var/www/html
+
 # Copy crontab_ssl
 COPY $CONTAINER_DIR/crontab_ssl /etc/cron.d/crontab_ssl
 RUN chmod 0644 /etc/cron.d/crontab_ssl
