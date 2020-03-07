@@ -13,7 +13,7 @@ RUN yum update -y \
     && yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
     && yum-config-manager --enable remi-php72 \
     && yum install -y php php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysqld php-mysqli \
-    && yum install -y php-zip php72-php-imap php72-php-xml php-xml php72-php-zip php72-php-mbstring php-pecl-redis
+    && yum install -y php-zip php72-php-imap php72-php-xml php-xml php72-php-zip php72-php-mbstring php-mbstring php-pecl-redis
 
 
 # Set default timezone, activate mysqli and zip extensions
