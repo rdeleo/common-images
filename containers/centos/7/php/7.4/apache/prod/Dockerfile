@@ -3,7 +3,7 @@
 # Centos:7.7 - Php:7.4 - Apache - Prod                  #
 #                                                       #
 #########################################################
-FROM rdeleo/centos7-php7.4-cli:7.4.3
+FROM rdeleo/centos7-php7.4-cli:7.4.5
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 
 ARG APACHE_CONF=apache.conf
