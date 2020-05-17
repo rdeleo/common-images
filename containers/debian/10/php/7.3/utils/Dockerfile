@@ -3,7 +3,7 @@
 # Debian:10 - Php:7.3 - Utils                           #
 #                                                       #
 #########################################################
-FROM rdeleo/debian10-php7.3-cli:7.3.17
+FROM rdeleo/debian10-php7.3-cli:7.3.18
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 WORKDIR /var/www/html
 

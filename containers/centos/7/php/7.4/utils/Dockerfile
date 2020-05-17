@@ -3,7 +3,7 @@
 # Centos:7.7 - Php:7.4 - Utils                          #
 #                                                       #
 #########################################################
-FROM rdeleo/centos7-php7.4-cli:7.4.5
+FROM rdeleo/centos7-php7.4-cli:7.4.6
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 
 # Install composer

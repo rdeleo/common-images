@@ -12,7 +12,7 @@ RUN yum update -y \
     && yum install -y epel-release yum-utils \
     && yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
     && yum-config-manager --enable remi-php74 \
-    && yum install -y php php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysqld php-mysqli \
+    && yum install -y gd gd-devel php php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysqld php-mysqli \
     && yum install -y php-zip php74-php-imap php74-php-xml php-xml php74-php-zip php74-php-mbstring php-mbstring php-pecl-redis
 
 # Set default timezone, activate mysqli and zip extensions

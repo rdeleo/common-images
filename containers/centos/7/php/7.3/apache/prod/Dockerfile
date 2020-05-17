@@ -3,7 +3,7 @@
 # Centos:7.7 - Php:7.3 - Apache - Prod                  #
 #                                                       #
 #########################################################
-FROM rdeleo/centos7-php7.3-cli:7.3.17
+FROM rdeleo/centos7-php7.3-cli:7.3.18
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 WORKDIR /var/www/html
 

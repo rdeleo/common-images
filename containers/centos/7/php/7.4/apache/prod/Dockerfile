@@ -3,7 +3,7 @@
 # Centos:7.7 - Php:7.4 - Apache - Prod                  #
 #                                                       #
 #########################################################
-FROM rdeleo/centos7-php7.4-cli:7.4.5
+FROM rdeleo/centos7-php7.4-cli:7.4.6
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 
 ARG APACHE_CONF=apache.conf
@@ -58,6 +58,8 @@ COPY $CONTAINER_DIR/docker-entrypoint.sh /usr/bin/docker-entrypoint
 
 # Set the docker-entrypoint as executable
 RUN chmod +x /usr/bin/docker-entrypoint
+
+WORKDIR /var/www/html
 
 EXPOSE 80 443
 
