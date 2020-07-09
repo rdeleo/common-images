@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   app:
-    image: rdeleo/centos7-php7.3-apache-dev:7.3.18
+    image: rdeleo/centos7-php7.3-apache-dev:7.3.19
     volumes:
       - ./fixtures/httpdocs:/var/www/html
     ports:

@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   app:
-    image: rdeleo/debian10-php7.4-apache-dev:7.4.6
+    image: rdeleo/debian10-php7.4-apache-dev:7.4.7
     volumes:
       - ./fixtures/httpdocs:/var/www/html
       - ./php.ini:/usr/local/etc/php/php.ini

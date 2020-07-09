@@ -3,7 +3,7 @@
 # Centos:7.7 - Php:7.3 - Apache - Prod                  #
 #                                                       #
 #########################################################
-FROM rdeleo/centos7-php7.3-cli:7.3.18
+FROM rdeleo/centos7-php7.3-cli:7.3.19
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 WORKDIR /var/www/html
 
@@ -13,7 +13,7 @@ ARG TEMPLATES_DIR=/root/templates
 ARG CONTAINER_DIR=/containers/centos/7/php/7.3/apache/prod
 
 # Install apache and certbot
-RUN yum install -y httpd mod_ssl certbot python2-certbot-apache cron crontabs supervisor
+RUN yum install -y httpd mod_ssl certbot python2-certbot-apache cronie crontabs supervisor
 
 # comment out PAM
 RUN sed -i -e '/pam_loginuid.so/s/^/#/' /etc/pam.d/crond
