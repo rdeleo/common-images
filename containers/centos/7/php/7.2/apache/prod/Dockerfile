@@ -13,7 +13,7 @@ ARG TEMPLATES_DIR=/root/templates
 ARG CONTAINER_DIR=/containers/centos/7/php/7.2/apache/prod
 
 # Install apache and certbot
-RUN yum install -y httpd mod_ssl certbot python2-certbot-apache cron crontabs supervisor
+RUN yum install -y httpd mod_ssl certbot python2-certbot-apache cronie crontabs supervisor
 
 # comment out PAM
 RUN sed -i -e '/pam_loginuid.so/s/^/#/' /etc/pam.d/crond
