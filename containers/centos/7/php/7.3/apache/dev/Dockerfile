@@ -3,7 +3,7 @@
 # Centos:7.7 - Php:7.3 - Apache - Dev                   #
 #                                                       #
 #########################################################
-FROM rdeleo/centos7-php7.3-cli:7.3.19
+FROM rdeleo/centos7-php7.3-cli:7.3.20
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 
 ARG PHPD_DIR=/etc/php.d
