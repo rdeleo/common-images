@@ -1,8 +1,8 @@
 #!/bin/bash
 
-PHP_74_LATEST=7.4.7
-PHP_73_LATEST=7.3.19
-PHP_72_LATEST=7.2.31
+PHP_74_LATEST=7.4.8
+PHP_73_LATEST=7.3.20
+PHP_72_LATEST=7.2.32
 
 docker build --no-cache -t rdeleo/centos7-php7.4-cli:${PHP_74_LATEST} -t rdeleo/centos7-php7.4-cli:latest -f containers/centos/7/php/7.4/cli/Dockerfile .
 docker push rdeleo/centos7-php7.4-cli:${PHP_74_LATEST}
@@ -101,3 +101,14 @@ docker push rdeleo/debian10-php7.2-apache-dev:latest
 docker build --no-cache -t rdeleo/debian10-php7.2-apache-prod:${PHP_72_LATEST} -t rdeleo/debian10-php7.2-apache-prod:latest -f containers/debian/10/php/7.2/apache/prod/Dockerfile .
 docker push rdeleo/debian10-php7.2-apache-prod:${PHP_72_LATEST}
 docker push rdeleo/debian10-php7.2-apache-prod:latest
+
+
+
+
+
+
+
+
+
+
+

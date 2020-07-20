@@ -3,7 +3,7 @@
 # Debian:10 - Php:7.3 - Apache - Prod                   #
 #                                                       #
 #########################################################
-FROM php:7.3.19-apache-buster
+FROM php:7.3.20-apache-buster
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 WORKDIR /var/www/html
 
