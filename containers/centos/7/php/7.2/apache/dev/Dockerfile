@@ -3,7 +3,7 @@
 # Centos:7.7 - Php:7.2 - Apache - Dev                   #
 #                                                       #
 #########################################################
-FROM rdeleo/centos7-php7.2-cli:7.2.32
+FROM rdeleo/centos7-php7.2-cli:7.2.34
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 
 ARG PHPD_DIR=/etc/php.d
@@ -44,6 +44,13 @@ COPY $CONTAINER_DIR/$APACHE_CONF $TEMPLATES_DIR/$APACHE_CONF
 # Add docker-entrypoint
 COPY $CONTAINER_DIR/docker-entrypoint.sh /usr/bin/docker-entrypoint
 RUN chmod +x /usr/bin/docker-entrypoint
+
+# Install composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN chmod +x /usr/bin/composer
+
+# Install prestissimo
+RUN /usr/bin/composer global require hirak/prestissimo
 
 RUN usermod -u 1000 apache \
     && groupmod -g 1000 apache \

@@ -3,7 +3,7 @@
 # Debian:10 - Php:7.2 - Cli                             #
 #                                                       #
 #########################################################
-FROM php:7.2.32-cli-buster
+FROM php:7.2.34-cli-buster
 LABEL MAINTAINER="Riccardo De Leo <r@rdeleo.com>"
 WORKDIR /var/www/html
 
